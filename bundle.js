@@ -622,8 +622,26 @@ var irrelevant = (function (exports) {
 },{}],2:[function(require,module,exports){
 // Write your JavaScript code here!
 
-window.addEventListener("load", function() {
+const { formSubmission } = require("./scriptHelper");
 
+window.addEventListener("load", function() {
+    let submitButton = document.getElementById("formSubmit");
+    
+    let pilotName = document.getElementById('pilotName');
+    
+    let copilotName = document.querySelector("input[name= 'copilotName']");
+    
+    let fuelLevel = document.querySelector("input[name= 'fuelLevel']");
+    let cargoMass = document.querySelector("input[name= 'cargoMass']");
+
+    let faultyItems = document.getElementById("faultyItems");
+
+    submitButton.addEventListener("click", event =>{        
+        event.preventDefault();
+        formSubmission(document, faultyItems, pilotName, copilotName, fuelLevel, cargoMass); 
+       
+
+    });
     let listedPlanets;
     // Set listedPlanetsResponse equal to the value returned by calling myFetch()
     let listedPlanetsResponse;
@@ -636,10 +654,10 @@ window.addEventListener("load", function() {
     })
     
  });
-},{}],3:[function(require,module,exports){
+},{"./scriptHelper":3}],3:[function(require,module,exports){
 // Write your helper functions here!
 
-require('cross-fetch/polyfill');
+const testval = require('cross-fetch/polyfill');
 
 function addDestinationInfo(document, name, diameter, star, distance, moons, imageUrl) {
     // Here is the HTML formatting for our mission target div.
@@ -657,10 +675,85 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
  }
  
  function validateInput(testInput) {
+
+    if (testInput != "" && isNaN(testInput)){
+        return "Not a Number";
+    } else if (testInput != "" && !isNaN(testInput)){
+        return "Is a Number";
+    } else {
+        return "Empty";
+    }
     
- }
+               
+    }
  
  function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
+    /* validateInput(...[pilot, copilot, fuelLevel, cargoLevel]); */
+    
+    let validPilot = false;
+    let validCopilot = false;
+    let validFuelLevel = false;
+    let validCargoLevel = false;
+    let fuelParameters = false;
+    let cargoParameters = false;
+
+    let launchStatusHeader = document.getElementById
+    ("launchStatus");
+    let pilotStatus = document.getElementById("pilotStatus");
+    let copilotStatus = document.getElementById("copilotStatus");
+    let fuelStatusMsg = document.getElementById("fuelStatus")
+    let cargoStatusMsg = document.getElementById("cargoStatus");
+    if (validateInput(pilot) != "Empty" &&
+        validateInput(pilot) != "Is a Number"){
+        validPilot = true;
+        pilotStatus.innerHTML = `Pilot ${pilot} is ready for launch`;
+    }
+    if(validateInput(copilot) != "Empty" &&
+        validateInput(copilot) != "Is a Number"){
+        validCopilot = true;
+        copilotStatus.innerHTML = `Co-pilot ${copilot} is ready for launch`;
+    } 
+    if(validateInput(fuelLevel) === "Is a Number") {
+        validFuelLevel = true;
+        if (fuelLevel.value > 10_000){
+            fuelParameters = true;
+        };
+    }
+
+    if(validateInput(cargoLevel) === "Is a Number"){
+        validCargoLevel = true;
+        if (cargoLevel.value <= 10_000) {
+            cargoParameters = true;
+        }
+    }
+
+    if (fuelParameters === true){
+        fuelStatusMsg.innerHTML = "Fuel level high enough for launch";
+
+    } else {
+        list.style.visibility = "visible";
+        fuelStatusMsg.innerHTML = "Fuel level too low for launch";
+        launchStatusHeader.innerHTML = "Shuttle Not Ready for Launch";
+        launchStatusHeader.style = 'color: red';
+    }
+
+    if (cargoParameters === false){
+        launchStatusHeader.style = 'color: red';
+        launchStatusHeader.innerHTML = "Shuttle not ready for launch";
+        list.style.visibility = "visible";
+        cargoStatusMsg.innerHTML = "Cargo mass too heavy for launch";
+        
+    } else {
+        launchStatusHeader.style = "color: red";
+        cargoStatusMsg.innerHTML = "Cargo mass low enough for launch";
+    }
+    
+    if (validPilot && validCopilot && validFuelLevel &&validCargoLevel) {
+        launchStatusHeader.innerHTML = "Shuttle is Ready for Launch";
+        list.style.visibility = "visible";
+        launchStatusHeader.style = "color: green";
+        
+    }
     
  }
  

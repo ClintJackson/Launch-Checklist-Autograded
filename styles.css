@@ -47,3 +47,7 @@ button {
    height: 30px;
    margin: 10px 0;
 }
+
+button:hover{
+   border: 1px solid green;
+}
