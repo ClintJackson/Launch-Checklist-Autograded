@@ -1,27 +1,26 @@
 // Write your JavaScript code here!
 
-const { formSubmission } = require("./scriptHelper");
-
-window.addEventListener("load", function() {
-    let submitButton = document.getElementById("formSubmit");
+window.addEventListener("load", () => {
+    const formSubmission = require("./scriptHelper");    
     
-    let pilotName = document.getElementById("pilotName");
+    
+    let pilotInput = document.getElementById("pilotName").value;
 
-        let copilotName = document.querySelector("input[name= 'copilotName']");
+    let copilotInput = document.querySelector("input[name='copilotName']").value;
         
-        let fuelLevel = document.querySelector("input[name= 'fuelLevel']");
-        let cargoMass = document.querySelector("input[name= 'cargoMass']");
+    let fuelInput = document.querySelector("input[name='fuelLevel']").value;
+    let cargoInput = document.querySelector("input[name='cargoMass']").value;
 
-        let faultyItems = document.getElementById("faultyItems")
+    let listItems = document.getElementById("faultyItems")
 
-    submitButton.addEventListener("click", event =>{  
-        
+    let form = document.querySelector("form[data-testid=testForm]");
+
+    form = addEventListener("submit", event =>{
         event.preventDefault();
 
-        formSubmission(document, faultyItems, pilotName.value, copilotName.value, fuelLevel.value, cargoMass.value); 
-       
-
-    });
+        formSubmission(document, listItems, pilotInput, copilotInput, fuelInput, cargoInput);
+    })
+    
     let listedPlanets;
     // Set listedPlanetsResponse equal to the value returned by calling myFetch()
     let listedPlanetsResponse;

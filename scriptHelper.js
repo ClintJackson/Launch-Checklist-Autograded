@@ -31,10 +31,8 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
     }
  
  function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
-    /* validateInput(...[pilot, copilot, fuelLevel, cargoLevel]); */
-    
+
     let validPilot = false;
-    let pilotValue = pilot.value;
     let validCopilot = false;
     let validFuelLevel = false;
     let validCargoLevel = false;
@@ -43,19 +41,22 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
 
     let launchStatusHeader = document.getElementById
     ("launchStatus");
-    let pilotStatus = document.getElementById("pilotStatus");
-    let copilotStatus = document.getElementById("copilotStatus");
+
+    let pilotStat = document.getElementById("pilotStatus");
+    let copilotStat = document.getElementById("copilotStatus");
     let fuelStatusMsg = document.getElementById("fuelStatus")
     let cargoStatusMsg = document.getElementById("cargoStatus");
-    if (validateInput(pilot) != "Empty" &&
-        validateInput(pilot) != "Is a Number"){
+    
+
+    if (!(validateInput(pilot) === "Empty") &&
+        !(validateInput(pilot) === "Is a Number")){
         validPilot = true;
-        pilotStatus.innerHTML = `Pilot ${pilot} is ready for launch`;
+        pilotStat.textContent += `Pilot ${pilot} is ready for launch`;
     }
     if(validateInput(copilot) != "Empty" &&
         validateInput(copilot) != "Is a Number"){
         validCopilot = true;
-        copilotStatus.innerHTML = `Co-pilot ${copilot} is ready for launch`;
+        copilotStat.innerHTML = `Co-pilot ${copilot} is ready for launch`;
     } 
     if(validateInput(fuelLevel) === "Is a Number") {
         validFuelLevel = true;
@@ -102,14 +103,19 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
         launchStatusHeader.innerHTML = "Shuttle Not Ready for Launch";
         launchStatusHeader.style.color = "red";
     }
-    
+    return;
  }
  
  async function myFetch() {
      let planetsReturned;
  
-     planetsReturned = await fetch().then( function(response) {
-         });
+     planetsReturned = await fetch("https://handlers.education.launchcode.org/static/planets.json");
+     
+     planetsReturned.then( function(response) {
+        response.json().then((rawJson)=>{
+            console.log(rawJson);
+        }) 
+    });
  
      return planetsReturned;
  }
