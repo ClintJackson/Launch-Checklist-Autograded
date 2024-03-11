@@ -52,13 +52,13 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
     let launchStatusHeader = document.getElementById
     ("launchStatus");
 
-    let pilotStat = document.getElementById("pilotStatus");
-    pilotStat.innerHTML = "not okay";
-    list.style.visibility = "visibile";
+    let pilotStat = document.getElementById("pilotStatus");    
     let copilotStat = document.getElementById("copilotStatus");
     let fuelStatusMsg = document.getElementById("fuelStatus")
+    fuelStatusMsg.innerHTML = "No value entered";
     let cargoStatusMsg = document.getElementById("cargoStatus");
-
+    cargoStatusMsg.innerHTML = "No value entered";
+    
     let alertMessage = "";
 
     let valuesNeedChecking = true;
@@ -71,7 +71,8 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
         //pilot checks
         if (validPilot){
             if (validPilot === "Empty"){
-                alertMessage +="Pilot name required\n";
+                pilotStat.innerHTML = "No name entered";
+                alert("Pilot name required");
             } else if (validPilot === "Is a Number") {
                 alertMessage += "Pilot should get a new name lol\n";
             } else {
@@ -83,7 +84,8 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
         //copilot checks
         if (validCopilot){
             if (validCopilot === "Empty"){
-                alertMessage += "Pilot name required\n";
+                copilotStat.innerHTML = "No name entered";
+                alert("Co-pilot name required");
             } else if (validCopilot === "Is a Number") {
                 alertMessage += "CoPilot should get a new name lol\n";
             } else {
@@ -145,19 +147,18 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
     } else if (cargoLevelGood === false || fuelLevelGood === false) {
         launchStatusHeader.innerHTML = "Shuttle Not Ready for Launch"; 
         launchStatusHeader.style.color = "red";
-        list.style.visibility = "visibile";
+        list.style = "visibility: visibile";
     }
-    if (alertMessage.length > 0){
-        //alert(alertMessage);
-    }
-
+   /*  if (alertMessage.length > 0){
+        alert(alertMessage);
+    } */
+    
  }
  
  async function myFetch() {
      let planetsReturned;
  
      planetsReturned = await fetch("https://handlers.education.launchcode.org/static/planets.json");
-    
     
      return planetsReturned.json();
  }
