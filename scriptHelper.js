@@ -53,6 +53,8 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
     ("launchStatus");
 
     let pilotStat = document.getElementById("pilotStatus");
+    pilotStat.innerHTML = "not okay";
+    list.style.visibility = "visibile";
     let copilotStat = document.getElementById("copilotStatus");
     let fuelStatusMsg = document.getElementById("fuelStatus")
     let cargoStatusMsg = document.getElementById("cargoStatus");
@@ -69,13 +71,14 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
         //pilot checks
         if (validPilot){
             if (validPilot === "Empty"){
-                alertMessage += "Pilot name required\n";
+                alertMessage +="Pilot name required\n";
             } else if (validPilot === "Is a Number") {
                 alertMessage += "Pilot should get a new name lol\n";
             } else {
-            pilotStat.innerHTML = `Pilot ${pilot} is ready for launch`;
-            pilotGood = true;
+                pilotStat.innerHTML = `Pilot ${pilot} is ready for launch`;
+                pilotGood = true;
             }
+        
         }
         //copilot checks
         if (validCopilot){
@@ -112,11 +115,11 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
             } else if (validCargoLevel === "Not a Number") {
                 alertMessage += "Rockets don't carry words\n";
             } else if (cargoLevel > 10000) {
-                cargoStatusMsg.innerHTML = `Cargo mass too heavy for launch`;
+                cargoStatusMsg.innerHTML = `Cargo mass too heavy for launch\n`;
                 alertMessage += "too high weight\n";
                 //fuelLevelGood stay false.
             } else if (cargoLevel <= 10000){
-                cargoStatusMsg.innerHTML = `Cargo mass low enough for launch`;
+                cargoStatusMsg.innerHTML = `Cargo mass low enough for launch\n`;
                 cargoLevelGood = true;
                 alertMessage += "cargo good\n";
             }
@@ -124,7 +127,7 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
         //set bool to false to confirm all values are good.
         if (pilotGood && coPilotGood && fuelLevelGood && cargoLevelGood) {
             valuesNeedChecking = false;
-            alertMessage += "all values clear"
+            alertMessage += "all values clear\n"
         }
         
     //end of valuesneedchecking conditional.     
@@ -138,20 +141,16 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
     if (!(valuesNeedChecking)) {
         launchStatusHeader.style.color = "green";
         launchStatusHeader.innerHTML = "Shuttle is Ready for Launch";
-        alertMessage += "all good to launch";
+        alertMessage += "all good to launch\n";
     } else if (cargoLevelGood === false || fuelLevelGood === false) {
         launchStatusHeader.innerHTML = "Shuttle Not Ready for Launch"; 
         launchStatusHeader.style.color = "red";
         list.style.visibility = "visibile";
     }
+    if (alertMessage.length > 0){
+        //alert(alertMessage);
+    }
 
-    //alert message cuz something in this project is acting wonky.
-    //works in browser. 
-    /* if (alertMessage.length > 0) {
-        alert(alertMessage);
-    }  */
-
-    return;
  }
  
  async function myFetch() {
