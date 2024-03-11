@@ -58,7 +58,7 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
     fuelStatusMsg.innerHTML = "No value entered";
     let cargoStatusMsg = document.getElementById("cargoStatus");
     cargoStatusMsg.innerHTML = "No value entered";
-    
+
     let alertMessage = "";
 
     let valuesNeedChecking = true;
@@ -73,8 +73,11 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
             if (validPilot === "Empty"){
                 pilotStat.innerHTML = "No name entered";
                 alert("Pilot name required");
+                pilotGood = false;
             } else if (validPilot === "Is a Number") {
-                alertMessage += "Pilot should get a new name lol\n";
+                alert("Pilot should get a new name lol");
+                pilotGood = false;
+                pilotStat.innerHTML = "who has numbers in their name? Seriously?";
             } else {
                 pilotStat.innerHTML = `Pilot ${pilot} is ready for launch`;
                 pilotGood = true;
@@ -85,9 +88,12 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
         if (validCopilot){
             if (validCopilot === "Empty"){
                 copilotStat.innerHTML = "No name entered";
+                coPilotGood = false;
                 alert("Co-pilot name required");
             } else if (validCopilot === "Is a Number") {
-                alertMessage += "CoPilot should get a new name lol\n";
+                alert("CoPilot should get a new name lol");
+                coPilotGood = false;
+                copilotStat.innerHTML = "who has numbers in their name? Seriously?";
             } else {
             copilotStat.innerHTML = `Co-pilot ${copilot} is ready for launch`;
             coPilotGood = true;
@@ -132,19 +138,25 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
             alertMessage += "all values clear\n"
         }
         
+        
     //end of valuesneedchecking conditional.     
     }
-
-
-    /* final updates:
+        /* final updates:
     if valuesNeedChecking = false, launch is good to go. 
     see line 125 
     might be able to get away with just "else" but prefer to do explicit check.*/
+
     if (!(valuesNeedChecking)) {
         launchStatusHeader.style.color = "green";
         launchStatusHeader.innerHTML = "Shuttle is Ready for Launch";
         alertMessage += "all good to launch\n";
-    } else if (cargoLevelGood === false || fuelLevelGood === false) {
+        return;
+    }
+
+
+
+    
+    if (!cargoLevelGood || !fuelLevelGood || !pilotGood || !coPilotGood) {
         launchStatusHeader.innerHTML = "Shuttle Not Ready for Launch"; 
         launchStatusHeader.style.color = "red";
         list.style = "visibility: visibile";
