@@ -706,12 +706,12 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
     if (validateInput(pilot) != "Empty" &&
         validateInput(pilot) != "Is a Number"){
         validPilot = true;
-        pilotStatus.innerHTML = `Pilot ${pilot} is ready for launch`;
+        pilotStatus.textContent = `Pilot ${pilot.value} is ready for launch`;
     }
     if(validateInput(copilot) != "Empty" &&
         validateInput(copilot) != "Is a Number"){
         validCopilot = true;
-        copilotStatus.innerHTML = `Co-pilot ${copilot} is ready for launch`;
+        copilotStatus.innerHTML = `Co-pilot ${copilot.value} is ready for launch`;
     } 
     if(validateInput(fuelLevel) === "Is a Number") {
         validFuelLevel = true;
